@@ -7,11 +7,30 @@ import {
 
 import logo from "../assets/logo.svg";
 
+import hackernewsService from "../services/hackernews";
 import PostList from "./PostList";
 import PostInfo from "./PostInfo";
+import Spinner from "./Spinner";
 
 class AppRouter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+      isLoading: true
+    };
+    hackernewsService
+      .fetchPosts()
+      .then(posts =>
+        this.setState({ posts, isLoading: false })
+      );
+  }
+
   render() {
+    console.log(hackernewsService);
+    if (this.state.isLoading) {
+      return <Spinner />;
+    }
     return (
       <Router>
         <div>

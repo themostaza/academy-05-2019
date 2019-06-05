@@ -1,7 +1,9 @@
 import { posts as postsMock } from "../mocks/hackernews";
 import keysConfig from "../config/keys";
 
-const getPosts = async () => {
+let savedPosts = null;
+
+const fetchPosts = async () => {
   if (keysConfig.USE_MOCK) {
     console.log("Using mock data");
     await new Promise((res, rej) =>
@@ -17,19 +19,24 @@ const getPosts = async () => {
 
   const promises = postsId
     .slice(0, 9)
-    .map(postId => getItem(postId));
+    .map(postId => fetchItem(postId));
 
-  const posts = await Promise.all(promises);
-  return posts;
+  savedPosts = await Promise.all(promises);
+  return savedPosts;
 };
 
-const getItem = async postId => {
+const fetchItem = async postId => {
   const result = await fetch(
     `https://hacker-news.firebaseio.com/v0/item/${postId}.json`
   );
   return await result.json();
 };
 
+const getPosts = () => {
+  return savedPosts;
+};
+
 export default {
+  fetchPosts,
   getPosts
 };
