@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Post(props) {
   return (
     <React.Fragment>
-      <b onClick={props.onClick}>
-        {props.post.title}
-      </b>
+      <Link to={`/post/${props.post.id}`}>
+        <b>{props.post.title}</b>
+      </Link>
       <br />
       <br />
     </React.Fragment>

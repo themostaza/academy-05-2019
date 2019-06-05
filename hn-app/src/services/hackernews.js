@@ -4,6 +4,9 @@ import keysConfig from "../config/keys";
 const getPosts = async () => {
   if (keysConfig.USE_MOCK) {
     console.log("Using mock data");
+    await new Promise((res, rej) =>
+      setTimeout(res, 3000)
+    );
     return Promise.resolve(postsMock);
   }
 
