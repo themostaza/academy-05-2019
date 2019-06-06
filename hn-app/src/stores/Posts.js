@@ -1,10 +1,10 @@
-import { decorate, observable } from "mobx";
+import { observable } from "mobx";
 
 import hackernewsService from "../services/hackernews";
 
 class Posts {
-  isLoading = false;
-  entries = [];
+  @observable isLoading = false;
+  @observable entries = [];
 
   constructor() {
     this.fetchEntries();
@@ -16,10 +16,5 @@ class Posts {
     this.isLoading = false;
   };
 }
-
-decorate(Posts, {
-  isLoading: observable,
-  entries: observable
-});
 
 export default Posts;

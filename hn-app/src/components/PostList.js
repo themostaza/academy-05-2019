@@ -7,15 +7,20 @@ import Spinner from "./Spinner";
 
 import "./PostList.css";
 
+@inject(stores => ({
+  posts: stores.posts.entries,
+  isLoading: stores.posts.isLoading
+}))
+@observer
 class PostList extends React.Component {
   render() {
-    if (this.props.posts.isLoading) {
+    if (this.props.isLoading) {
       return <Spinner />;
     }
 
     return (
       <div className="App">
-        {this.props.posts.entries.map(post => (
+        {this.props.posts.map(post => (
           <Post key={post.id} post={post} />
         ))}
       </div>
@@ -23,6 +28,4 @@ class PostList extends React.Component {
   }
 }
 
-export default inject("posts")(
-  observer(PostList)
-);
+export default PostList;
