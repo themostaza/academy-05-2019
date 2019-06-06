@@ -14,7 +14,7 @@ class PostInfo extends React.Component {
     return post ? (
       <div>
         <p>{post.title}</p>
-        <Link to={"/"}>{`Torna alla lista`}</Link>
+        <Link to={"/"}>{`Torna alla home`}</Link>
       </div>
     ) : (
       <div>{`404 POST NOT FOUND`}</div>

@@ -12,18 +12,24 @@ import PostList from "./PostList";
 import PostInfo from "./PostInfo";
 import Spinner from "./Spinner";
 
+const InfoApp = props => {
+  return (
+    <div>
+      <p>{`Benvenuto in InfoApp`}</p>
+      <Link
+        to={"/list"}
+      >{`Vai a lista post`}</Link>
+    </div>
+  );
+};
+
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      isLoading: true
+      posts: []
     };
-    hackernewsService
-      .fetchPosts()
-      .then(posts =>
-        this.setState({ posts, isLoading: false })
-      );
+    hackernewsService.fetchPosts();
   }
 
   render() {
@@ -34,9 +40,16 @@ class AppRouter extends React.Component {
     return (
       <Router>
         <div>
+          <div>
+            <h1>HN APP</h1>
+          </div>
           <Route
             path="/"
             exact
+            component={InfoApp}
+          />
+          <Route
+            path="/list"
             component={PostList}
           />
           <Route
