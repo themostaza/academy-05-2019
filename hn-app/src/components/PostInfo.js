@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { observer, inject } from "mobx-react";
 
 import hackernewsService from "../services/hackernews";
 
@@ -7,10 +8,13 @@ import Spinner from "./Spinner";
 
 class PostInfo extends React.Component {
   render() {
+    if (this.props.posts.isLoading) {
+      return <Spinner />;
+    }
     const postId = this.props.match.params.id;
-    const post = hackernewsService
-      .getPosts()
-      .find(p => p.id === Number(postId));
+    const post = this.props.posts.entries.find(
+      p => p.id === Number(postId)
+    );
     return post ? (
       <div>
         <p>{post.title}</p>
@@ -22,4 +26,6 @@ class PostInfo extends React.Component {
   }
 }
 
-export default PostInfo;
+export default inject("posts")(
+  observer(PostInfo)
+);

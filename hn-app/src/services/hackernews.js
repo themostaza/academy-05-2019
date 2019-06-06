@@ -1,15 +1,12 @@
 import { posts as postsMock } from "../mocks/hackernews";
 import keysConfig from "../config/keys";
 
-let savedPosts = null;
-
 const fetchPosts = async () => {
   if (keysConfig.USE_MOCK) {
     console.log("Using mock data");
     await new Promise((res, rej) =>
-      setTimeout(res, 10000)
+      setTimeout(res, 1000)
     );
-    savedPosts = postsMock;
     return Promise.resolve(postsMock);
   }
 
@@ -22,8 +19,7 @@ const fetchPosts = async () => {
     .slice(0, 9)
     .map(postId => fetchItem(postId));
 
-  savedPosts = await Promise.all(promises);
-  return savedPosts;
+  return await Promise.all(promises);
 };
 
 const fetchItem = async postId => {
@@ -33,11 +29,6 @@ const fetchItem = async postId => {
   return await result.json();
 };
 
-const getPosts = () => {
-  return savedPosts;
-};
-
 export default {
-  fetchPosts,
-  getPosts
+  fetchPosts
 };

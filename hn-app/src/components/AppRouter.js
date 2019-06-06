@@ -5,17 +5,25 @@ import {
   Link
 } from "react-router-dom";
 
-import logo from "../assets/logo.svg";
+import {
+  Provider,
+  inject,
+  observer
+} from "mobx-react";
 
-import hackernewsService from "../services/hackernews";
 import PostList from "./PostList";
 import PostInfo from "./PostInfo";
 import Spinner from "./Spinner";
 
+import Posts from "../stores/Posts";
+import hackernewsService from "../services/hackernews";
+
+const PostsStore = new Posts();
+
 const InfoApp = props => {
   return (
     <div>
-      <p>{`Benvenuto in InfoApp`}</p>
+      <p>{`Benvenuto in InfoApp `}</p>
       <Link
         to={"/list"}
       >{`Vai a lista post`}</Link>
@@ -38,26 +46,28 @@ class AppRouter extends React.Component {
       return <Spinner />;
     }
     return (
-      <Router>
-        <div>
+      <Provider posts={PostsStore}>
+        <Router>
           <div>
-            <h1>HN APP</h1>
+            <div>
+              <h1>HN APP</h1>
+            </div>
+            <Route
+              path="/"
+              exact
+              component={InfoApp}
+            />
+            <Route
+              path="/list"
+              component={PostList}
+            />
+            <Route
+              path="/post/:id"
+              component={PostInfo}
+            />
           </div>
-          <Route
-            path="/"
-            exact
-            component={InfoApp}
-          />
-          <Route
-            path="/list"
-            component={PostList}
-          />
-          <Route
-            path="/post/:id"
-            component={PostInfo}
-          />
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }
