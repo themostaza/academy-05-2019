@@ -1,27 +1,58 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import React from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
+
+import { posts as postsMock } from "../mocks/hackernews";
+
+function Post(props) {
+  return (
+    <View style={styles.postContainer}>
+      <Text style={styles.postTitle}>
+        {props.item.title}
+      </Text>
+    </View>
+  );
+}
+
+function Separator(props) {
+  return <View style={styles.separator} />;
+}
 
 export default function LinksScreen() {
   return (
-    <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
-      <ExpoLinksView />
-    </ScrollView>
+    <FlatList
+      data={postsMock}
+      renderItem={({ item }) => (
+        <Post item={item} />
+      )}
+      keyExtractor={(item, index) => `${item.id}`}
+      ItemSeparatorComponent={() => <Separator />}
+    />
   );
 }
 
 LinksScreen.navigationOptions = {
-  title: 'Links',
+  title: "Links"
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
+  postContainer: {
+    backgroundColor: "gray"
+  },
+  postTitle: {
+    color: "black",
+    fontSize: 35
+  },
+  separator: {
+    height: 5
+  }
 });
